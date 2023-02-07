@@ -1,9 +1,14 @@
 import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam } from '@nestjs/common';
 import { Request } from 'express';
+import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
+
+  constructor(private authService: AuthService){}
+
   @Get('findall')
   findAll(): object {
+    console.log(this.authService.findAll())
     return {
         name: "phuoc",
         age: 20
@@ -18,13 +23,3 @@ export class AuthController {
     return "Đã vào"
   }
 }
-//   @HttpCode(204)
-//   findAll(@Res() response): string {
-    
-//     response.status(200).json({
-//         name: "Phuoc",
-//         age: 20
-//     })
-
-//     return 'This action returns all cats';
-//   }
