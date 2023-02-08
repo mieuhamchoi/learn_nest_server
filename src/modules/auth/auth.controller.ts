@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam } from '@nestjs/common';
+import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam, ParseIntPipe } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from '../users/user/user.service';
 import { AuthService } from './auth.service';
@@ -6,6 +6,12 @@ import { AuthService } from './auth.service';
 export class AuthController {
 
   constructor(private authService: AuthService, private userService: UserService){}
+
+  @Get('pipe/:id')
+  pipe( @Param('id', ParseIntPipe) id: number)  {
+    // return badrequest if param id can't pare to type number
+    return id
+  }
 
   @Get('findall')
   findAll(): object {
