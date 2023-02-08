@@ -1,11 +1,19 @@
-import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam } from '@nestjs/common';
+import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from '../users/user/user.service';
 import { AuthService } from './auth.service';
+import { AuthGuard } from './guards/auth/auth.guard';
 @Controller('auth')
 export class AuthController {
 
   constructor(private authService: AuthService, private userService: UserService){}
+
+  @Get('guard')
+  @UseGuards(AuthGuard)
+  testGuard() {
+    // if can't active return badrequest
+    return 'đã vào được'
+  }
 
   @Get('findall')
   findAll(): object {
