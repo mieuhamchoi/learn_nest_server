@@ -1,11 +1,12 @@
 import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam } from '@nestjs/common';
 import { Request } from 'express';
+import { ConfigService } from '../config/config.service';
 import { UserService } from '../users/user/user.service';
 import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
 
-  constructor(private authService: AuthService, private userService: UserService){}
+  constructor(private authService: AuthService, private userService: UserService, private configService: ConfigService){}
 
   @Get('findall')
   findAll(): object {
@@ -23,5 +24,11 @@ export class AuthController {
     console.log("tìm ip", ip)
     console.log("tìm host", host)
     return "Đã vào"
+  }
+
+    
+  @Get('test')
+  testDynamicModule() {
+      return this.configService;
   }
 }
