@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam } from '@nestjs/common';
+import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam, BadRequestException, ForbiddenException, HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from '../users/user/user.service';
 import { AuthService } from './auth.service';
@@ -8,13 +8,10 @@ export class AuthController {
   constructor(private authService: AuthService, private userService: UserService){}
 
   @Get('findall')
-  findAll(): object {
-    //console.log(this.authService.findAll())
-    console.log("load thanh cong", this.userService.getUser())
-    return {
-        name: "phuoc",
-        age: 20
-    }
+  findAll() {
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // throw new ForbiddenException();
+    // throw new BadRequestException('Something bad happened', { cause: new Error(), description: 'Some error description' })
   }
   @Get('getuser/:id/:name')
   getUser(@Req() request: Request, @Param('id') id: string,  @Param('name') name: string, @Ip() ip, @HostParam() host) :string {
