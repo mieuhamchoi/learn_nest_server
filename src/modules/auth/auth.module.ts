@@ -7,10 +7,13 @@ import { AuthGuard } from './guards/auth/auth.guard';
 //@Global()
 @Module({
   controllers: [AuthController],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: AuthGuard,
-  },AuthService],
+  providers: [
+  // {
+  //   provide: APP_GUARD,
+  //   useClass: AuthGuard,
+  // },
+  AuthService
+],
   exports: [AuthService]
 })
 export class AuthModule {}
