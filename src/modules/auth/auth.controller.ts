@@ -1,8 +1,9 @@
-import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam, UseGuards, SetMetadata } from '@nestjs/common';
+import { Controller, Get, HttpCode, Res, Req, Param, Ip, HostParam, UseGuards, SetMetadata, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from '../users/user/user.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './guards/auth/auth.guard';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 @Controller('auth')
 export class AuthController {
 
@@ -15,12 +16,26 @@ export class AuthController {
     // if can't active return badrequest
     return 'đã vào được'
   }
-
+  
   @Get('guard')
-  @UseGuards(AuthGuard)
-  testGuard() {
+  @UseInterceptors(LoggingInterceptor)
+  //@UseGuards(AuthGuard)
+  async testGuard() {
     // if can't active return badrequest
-    return 'đã vào được'
+    let flag = 0;
+    while(true) {
+      await this.sleep(1000)
+      console.log("1000")
+      flag += 1000;
+      if (flag >= 10000) {
+        console.log('out')
+        break
+      }
+    }
+  }
+
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 
